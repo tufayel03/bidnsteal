@@ -8,11 +8,25 @@
 document.addEventListener('DOMContentLoaded', function () {
     var toggleButton = document.getElementById('bs-toggle');
     var mobileMenu   = document.getElementById('bs-mobile-menu');
+    var navBar       = document.querySelector('.bs-nav');
 
     if (toggleButton && mobileMenu) {
         toggleButton.addEventListener('click', function () {
             // Toggle the 'active' class on the mobile menu to control visibility.
             mobileMenu.classList.toggle('active');
         });
+    }
+
+    if (navBar) {
+        var handleSticky = function () {
+            if (window.scrollY > 10) {
+                navBar.classList.add('is-sticky');
+            } else {
+                navBar.classList.remove('is-sticky');
+            }
+        };
+
+        handleSticky();
+        window.addEventListener('scroll', handleSticky);
     }
 });

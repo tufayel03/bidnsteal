@@ -24,14 +24,20 @@ ul { list-style: none; margin: 0; padding: 0; }
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0 4px;
+    background: linear-gradient(180deg, rgba(8, 8, 8, 0.92) 0%, rgba(8, 8, 8, 0.75) 40%, rgba(8, 8, 8, 0.3) 100%);
+    backdrop-filter: blur(14px);
 }
 
 /* Navigation bar styling */
 .bs-nav {
     width: 95%;
     padding: 18px 28px;
-    border-radius: 18px;
+    border-radius: 26px;
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -40,6 +46,12 @@ ul { list-style: none; margin: 0; padding: 0; }
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bs-nav.is-sticky {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    border-color: rgba(223, 227, 29, 0.28);
 }
 
 /* Logo styling */

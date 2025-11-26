@@ -49,12 +49,19 @@ function bidnsteal_scripts() {
     wp_enqueue_style( 'bidnsteal-glass-style', $theme_uri . '/assets/css/glass.css', [], '1.0' );
 
     // Shop specific stylesheet loaded on shop, category, tag, single product, cart and checkout pages.
-    if ( is_shop() || is_product_category() || is_product_tag() || is_singular( 'product' ) || is_cart() || is_checkout() ) {
+    if ( is_shop() || is_product_category() || is_product_tag() || is_singular( 'product' ) || is_cart() || is_checkout() || is_account_page() ) {
         wp_enqueue_style( 'bidnsteal-shop-style', $theme_uri . '/assets/css/shop.css', [], '1.0' );
     }
 
     // Load our custom JavaScript file. It depends on jQuery to handle the mobile menu toggle.
     wp_enqueue_script( 'bidnsteal-main-js', $theme_uri . '/assets/js/main.js', [ 'jquery' ], '1.0', true );
+
+    // Ensure core WooCommerce add to cart behaviour is available for custom product buttons.
+    if ( class_exists( 'WooCommerce' ) ) {
+        wp_enqueue_script( 'wc-add-to-cart' );
+        wp_enqueue_script( 'wc-add-to-cart-variation' );
+        wp_enqueue_script( 'wc-cart-fragments' );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'bidnsteal_scripts' );
 
@@ -89,5 +96,64 @@ function bidnsteal_body_classes( $classes ) {
     return $classes;
 }
 add_filter( 'body_class', 'bidnsteal_body_classes' );
+
+/**
+ * Allow filtering shop archives via custom category checkboxes in the sidebar.
+ *
+ * Reads the `bs_categories` GET parameter and applies an `IN` tax query for the
+ * selected slugs.
+ *
+ * @param WP_Query $query The current query instance.
+ */
+function bidnsteal_filter_shop_categories( $query ) {
+    if ( is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+
+    if ( ! ( is_shop() || is_product_taxonomy() ) ) {
+        return;
+    }
+
+    if ( empty( $_GET['bs_categories'] ) || ! is_array( $_GET['bs_categories'] ) ) {
+        return;
+    }
+
+    $slugs = array_filter( array_map( 'sanitize_title', (array) wp_unslash( $_GET['bs_categories'] ) ) );
+
+    if ( empty( $slugs ) ) {
+        return;
+    }
+
+    $tax_query   = (array) $query->get( 'tax_query' );
+    $tax_query[] = [
+        'taxonomy' => 'product_cat',
+        'field'    => 'slug',
+        'terms'    => $slugs,
+        'operator' => 'IN',
+    ];
+
+    $query->set( 'tax_query', $tax_query );
+}
+add_action( 'pre_get_posts', 'bidnsteal_filter_shop_categories' );
+
+/**
+ * Preserve selected category filters when submitting the WooCommerce price slider.
+ *
+ * @param string $form The original form HTML.
+ * @return string Modified form HTML including hidden inputs for selected categories.
+ */
+function bidnsteal_price_filter_form( $form ) {
+    if ( empty( $_GET['bs_categories'] ) || ! is_array( $_GET['bs_categories'] ) ) {
+        return $form;
+    }
+
+    $hidden_inputs = '';
+    foreach ( (array) wp_unslash( $_GET['bs_categories'] ) as $slug ) {
+        $hidden_inputs .= '<input type="hidden" name="bs_categories[]" value="' . esc_attr( sanitize_title( $slug ) ) . '" />';
+    }
+
+    return str_replace( '</form>', $hidden_inputs . '</form>', $form );
+}
+add_filter( 'woocommerce_price_filter_form', 'bidnsteal_price_filter_form' );
 
 ?>
