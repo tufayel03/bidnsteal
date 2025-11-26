@@ -1,0 +1,23 @@
+/*
+ * Glass styling: apply to elements that require a frosted glass effect.  This file is separated out
+ * so you can selectively apply a translucent look to blocks on the site.  Combine these classes with
+ * other utility classes to build components such as glass cards and glass containers.
+ */
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+}
+
+/* Generic glass container used for sidebars, panels and callouts */
+.glass-container {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 20px;
+}

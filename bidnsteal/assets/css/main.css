@@ -1,0 +1,367 @@
+/*
+ * Main stylesheet for the BidnSteal theme.
+ *
+ * This file includes base styling for the entire site including the glass navbar, typography, hero
+ * section, category icons, and responsive grid.  Additional page‑specific styles are loaded from
+ * separate stylesheets as needed (e.g. shop.css for the shop layout).
+ */
+
+/* Reset margin and padding on body and set default font and colours */
+body {
+    margin: 0;
+    padding: 0;
+    background: #080808;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+}
+
+/* Remove list styles and default paddings from ULs used for product grids and menus */
+ul { list-style: none; margin: 0; padding: 0; }
+
+/* Glass header container: centre within viewport */
+.bs-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Navigation bar styling */
+.bs-nav {
+    width: 95%;
+    padding: 18px 28px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+/* Logo styling */
+.bs-logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Primary menu */
+.bs-menu {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.bs-menu li a {
+    color: #ffffff;
+    opacity: 0.7;
+    font-size: 16px;
+    text-decoration: none;
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.bs-menu li a:hover,
+.bs-menu li.current-menu-item > a {
+    opacity: 1;
+    color: #dfe31d;
+}
+
+/* Icons on the right side of the navbar */
+.bs-right {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.bs-icon {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 10px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.bs-icon:hover {
+    background: #dfe31d;
+    color: #000000;
+}
+
+/* Hide mobile toggle by default; show only on small screens */
+.mobile-only {
+    display: none;
+}
+
+/* Mobile navigation menu; initially hidden */
+.bs-mobile-menu {
+    display: none;
+    width: 95%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.bs-mobile-list li a {
+    display: block;
+    padding: 10px 0;
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.bs-mobile-list li a:hover {
+    opacity: 1;
+    color: #dfe31d;
+}
+
+/* Hero section styling */
+.bs-hero {
+    width: 95%;
+    max-width: 1400px;
+    margin: 70px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.bs-hero .hero-content {
+    flex: 1 1 50%;
+}
+
+.bs-hero .hero-content h1 {
+    font-size: 52px;
+    font-weight: 700;
+    margin: 0 0 15px;
+}
+
+.bs-hero .hero-content p {
+    font-size: 18px;
+    opacity: 0.8;
+    max-width: 500px;
+    margin-bottom: 25px;
+}
+
+.bs-hero .hero-btn {
+    display: inline-block;
+    padding: 14px 30px;
+    background: #dfe31d;
+    color: #000000;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.bs-hero .hero-btn:hover {
+    background: #ffff4d;
+}
+
+.bs-hero .hero-image {
+    flex: 1 1 40%;
+    text-align: center;
+}
+
+.bs-hero .hero-image img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 0 40px rgba(223, 227, 29, 0.25));
+}
+
+/* Category section */
+.bs-categories {
+    width: 95%;
+    max-width: 1400px;
+    margin: 60px auto;
+}
+
+.bs-categories .section-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+}
+
+.cat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    border-radius: 16px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.cat-box i {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.cat-box:hover {
+    transform: translateY(-6px);
+    border-color: #dfe31d;
+}
+
+/* Glass boxes share a common translucent look; defined in glass.css but repeated here for clarity */
+.glass-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Product sections on the home page */
+.bs-products {
+    width: 95%;
+    max-width: 1400px;
+    margin: 70px auto;
+}
+
+.bs-products .section-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.bs-product-list ul.products {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+}
+
+/* Generic product card styling for WooCommerce loops (used on the home page). The shop page uses its own template. */
+.woocommerce ul.products li.product {
+    background: #18181c;
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.woocommerce ul.products li.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.woocommerce ul.products li.product a img {
+    border-radius: 12px;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+    margin: 10px 0 4px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.woocommerce ul.products li.product .price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.woocommerce ul.products li.product .price del {
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 4px;
+}
+
+.woocommerce ul.products li.product .button {
+    display: inline-block;
+    margin-top: 12px;
+    background: #dfe31d;
+    color: #000000;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.woocommerce ul.products li.product .button:hover {
+    background: #ffff4d;
+    color: #000;
+}
+
+/* Sale flash on default product loops */
+.woocommerce span.onsale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #dfe31d;
+    color: #000000;
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Footer */
+.bs-footer {
+    width: 100%;
+    padding: 40px 0;
+    background: #080808;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.bs-footer-inner p {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .bs-hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    .bs-hero .hero-content,
+    .bs-hero .hero-image {
+        flex: 1 1 100%;
+    }
+    .bs-hero .hero-content h1 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Hide the horizontal navigation and show the mobile toggle */
+    .bs-center {
+        display: none;
+    }
+    .mobile-only {
+        display: inline-flex;
+    }
+    /* Show the mobile menu when toggled via JS */
+    #bs-mobile-menu.active {
+        display: block;
+    }
+    /* Adjust hero text size */
+    .bs-hero .hero-content h1 {
+        font-size: 32px;
+    }
+}

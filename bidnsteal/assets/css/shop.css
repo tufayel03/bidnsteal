@@ -1,0 +1,806 @@
+/*
+ * Styles specific to the shop page and product grids.
+ *
+ * This stylesheet complements main.css and defines the layout for the custom shop template and
+ * product cards.  It relies on CSS grid for the product list and uses a dark colour scheme with
+ * neon yellow highlights, mirroring the Protech design provided by the user.
+ */
+
+/* Shop page container: holds sidebar and main area side by side */
+.bs-shop-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Sidebar styling */
+.bs-shop-sidebar {
+    flex: 0 0 280px;
+    background: #18181c;
+    border-radius: 16px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.bs-shop-sidebar .sidebar-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Active filter chips */
+.bs-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.bs-active-filters a {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #dfe31d;
+    color: #000;
+    border-radius: 12px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.filter-heading {
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* WooCommerce layered nav widgets inside sidebar */
+.bs-shop-sidebar .woocommerce-widget-layered-nav-list li {
+    margin-bottom: 8px;
+}
+
+.bs-shop-sidebar .woocommerce-widget-layered-nav-list a {
+    color: #ffffff;
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    font-size: 14px;
+}
+
+.bs-shop-sidebar .woocommerce-widget-layered-nav-list a:hover {
+    opacity: 1;
+    color: #dfe31d;
+}
+
+.bs-shop-sidebar .woocommerce-widget-layered-nav-list .chosen a {
+    color: #dfe31d;
+}
+
+/* Price filter styling */
+.bs-shop-sidebar .price_slider_wrapper {
+    margin-bottom: 25px;
+}
+
+.bs-shop-sidebar .price_slider_amount {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.bs-shop-sidebar .button {
+    padding: 6px 12px;
+    background: #dfe31d;
+    color: #000000;
+    border-radius: 12px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bs-shop-sidebar .button:hover {
+    background: #ffff4d;
+}
+
+/* Main shop area styling */
+.bs-shop-main {
+    flex: 1 1 auto;
+}
+
+/* Header at top of shop listing: title and breadcrumb left, sort dropdown right */
+.bs-shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+}
+
+.shop-title {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.bs-breadcrumb {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #aaaaaa;
+}
+
+/* Sort dropdown container */
+.bs-shop-sort {
+    color: #ffffff;
+}
+.bs-shop-sort select {
+    background: #18181c;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+/* Category tabs at top of shop listing */
+.bs-category-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.bs-category-tabs a {
+    padding: 8px 16px;
+    background: #18181c;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    opacity: 0.7;
+    text-decoration: none;
+    transition: opacity 0.2s, background 0.2s, color 0.2s;
+}
+
+.bs-category-tabs a:hover,
+.bs-category-tabs a.active {
+    opacity: 1;
+    background: #dfe31d;
+    color: #000000;
+}
+
+/* Product grid specific to Protech card template */
+.bs-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Product card structure */
+.bs-product-grid .bs-product {
+    position: relative;
+    background: #18181c;
+    border-radius: 18px;
+    padding: 16px;
+    box-sizing: border-box;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bs-product-grid .bs-product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Image container within card */
+.bs-product-grid .bs-product .bs-card-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.bs-product-grid .bs-product .bs-card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+}
+
+/* Sale badge */
+.bs-product-grid .bs-product .bs-sale-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #dfe31d;
+    color: #000000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Add to cart button overlay */
+.bs-product-grid .bs-product .bs-cart-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 42px;
+    height: 42px;
+    background: #dfe31d;
+    color: #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.bs-product-grid .bs-product .bs-cart-btn:hover {
+    background: #ffff4d;
+    color: #000000;
+}
+
+/* Card body containing brand, title, rating and price */
+.bs-product-grid .bs-product .bs-card-body {
+    margin-top: 12px;
+}
+
+.bs-product-grid .bs-product .bs-brand {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #dfe31d;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.bs-product-grid .bs-product .bs-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+
+.bs-product-grid .bs-product .bs-title a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.bs-product-grid .bs-product .bs-title a:hover {
+    color: #dfe31d;
+}
+
+/* Rating section: star icons and numeric rating */
+.bs-product-grid .bs-product .bs-rating {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #dfe31d;
+}
+
+.bs-product-grid .bs-product .bs-rating .star-rating {
+    margin-right: 4px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.bs-product-grid .bs-product .bs-rating .rating-value {
+    font-size: 14px;
+    margin-left: 4px;
+    color: #dfe31d;
+}
+
+/* Price styling */
+.bs-product-grid .bs-product .bs-price {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.bs-product-grid .bs-product .bs-price del {
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 4px;
+}
+
+.bs-product-grid .bs-product .bs-price ins {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Pagination styling */
+.woocommerce-pagination {
+    margin-top: 40px;
+    text-align: center;
+}
+.woocommerce-pagination ul.page-numbers {
+    display: inline-flex;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+.woocommerce-pagination ul.page-numbers li {
+    list-style: none;
+}
+.woocommerce-pagination ul.page-numbers a,
+.woocommerce-pagination ul.page-numbers span {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: #18181c;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+.woocommerce-pagination ul.page-numbers a:hover,
+.woocommerce-pagination ul.page-numbers .current {
+    background: #dfe31d;
+    color: #000000;
+}
+
+/* ===================== Cart Page ===================== */
+.bs-cart-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 60px auto;
+    background: #18181c;
+    border-radius: 18px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.bs-cart-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.bs-cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+}
+
+.bs-cart-table thead th {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.bs-cart-table tbody td {
+    padding: 15px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.bs-cart-table .product-thumbnail img {
+    width: 60px;
+    height: auto;
+    border-radius: 12px;
+}
+
+.bs-cart-table .product-remove a {
+    color: #dfe31d;
+    font-size: 18px;
+}
+
+.bs-cart-table .actions {
+    padding-top: 15px;
+    text-align: right;
+}
+
+.bs-cart-table .actions .coupon {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.bs-cart-table .actions input[type="text"] {
+    padding: 8px 12px;
+    background: #18181c;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.bs-cart-table .actions button,
+.bs-cart-table .actions input[type="submit"] {
+    padding: 8px 16px;
+    background: #dfe31d;
+    color: #000000;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bs-cart-table .actions button:hover,
+.bs-cart-table .actions input[type="submit"]:hover {
+    background: #ffff4d;
+    color: #000;
+}
+
+.bs-cart-collaterals {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.bs-cart-collaterals .cart_totals {
+    flex: 1 1 320px;
+    background: #18181c;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.bs-cart-collaterals .cart_totals h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.bs-cart-collaterals .cart_totals table {
+    width: 100%;
+}
+
+.bs-cart-collaterals .cart_totals table th,
+.bs-cart-collaterals .cart_totals table td {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.bs-cart-collaterals .cart_totals .order-total th,
+.bs-cart-collaterals .cart_totals .order-total td {
+    font-weight: 700;
+}
+
+.bs-cart-collaterals .cart_totals .wc-proceed-to-checkout a.checkout-button {
+    display: block;
+    margin-top: 20px;
+    background: #dfe31d;
+    color: #000000;
+    padding: 12px;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.bs-cart-collaterals .cart_totals .wc-proceed-to-checkout a.checkout-button:hover {
+    background: #ffff4d;
+}
+
+/* ===================== Checkout Page ===================== */
+.bs-checkout-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 60px auto;
+    background: #18181c;
+    border-radius: 18px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.bs-checkout-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.bs-checkout-cols {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.bs-col-left,
+.bs-col-right {
+    flex: 1 1 48%;
+}
+
+/* Style form fields */
+.bs-checkout-container .woocommerce-checkout input[type="text"],
+.bs-checkout-container .woocommerce-checkout input[type="email"],
+.bs-checkout-container .woocommerce-checkout input[type="tel"],
+.bs-checkout-container .woocommerce-checkout input[type="password"],
+.bs-checkout-container .woocommerce-checkout input[type="number"],
+.bs-checkout-container .woocommerce-checkout input[type="search"],
+.bs-checkout-container .woocommerce-checkout select,
+.bs-checkout-container .woocommerce-checkout textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: #2a2a2e;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.bs-checkout-container .woocommerce-checkout label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.bs-checkout-container .woocommerce-checkout .select2-container--default .select2-selection--single {
+    background: #2a2a2e;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.bs-checkout-container .woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #ffffff;
+}
+
+.bs-checkout-container .woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__arrow {
+    color: #ffffff;
+}
+
+/* Order review styling */
+.bs-checkout-container #order_review {
+    background: #18181c;
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.bs-checkout-container #order_review table {
+    width: 100%;
+}
+
+.bs-checkout-container #order_review table th,
+.bs-checkout-container #order_review table td {
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bs-checkout-container #order_review table .woocommerce-Price-amount {
+    color: #ffffff;
+}
+
+.bs-checkout-container #order_review .woocommerce-checkout-payment {
+    margin-top: 20px;
+}
+
+.bs-checkout-container #order_review .woocommerce-checkout-payment .payment_methods li {
+    background: #2a2a2e;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    list-style: none;
+    color: #ffffff;
+}
+
+.bs-checkout-container #order_review .woocommerce-checkout-payment .payment_methods li input[type="radio"] {
+    margin-right: 8px;
+}
+
+.bs-checkout-container #order_review .woocommerce-checkout-payment .place-order button[type="submit"] {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: #dfe31d;
+    color: #000000;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bs-checkout-container #order_review .woocommerce-checkout-payment .place-order button[type="submit"]:hover {
+    background: #ffff4d;
+}
+
+/* Responsive checkout */
+@media (max-width: 992px) {
+    .bs-checkout-cols {
+        flex-direction: column;
+    }
+    .bs-col-left,
+    .bs-col-right {
+        flex: 1 1 100%;
+    }
+}
+
+/* Responsive adjustments for shop page */
+@media (max-width: 992px) {
+    .bs-shop-container {
+        flex-direction: column;
+    }
+    .bs-shop-sidebar {
+        width: 100%;
+        flex: 1 1 auto;
+        margin-bottom: 40px;
+    }
+    .bs-shop-main {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .bs-category-tabs a {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    .bs-shop-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .shop-title {
+        font-size: 28px;
+    }
+}
+
+/* Single product hero layout */
+.bs-single-product {
+    width: 95%;
+    max-width: 1400px;
+    margin: 60px auto;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.bs-single-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.bs-single-image {
+    flex: 1 1 50%;
+    position: relative;
+}
+
+.bs-single-summary {
+    flex: 1 1 45%;
+}
+
+.bs-single-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.bs-single-rating {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #dfe31d;
+}
+
+.bs-single-rating .star-rating {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.bs-single-rating .bs-rating-count {
+    margin-left: 6px;
+    font-size: 14px;
+    color: #dfe31d;
+}
+
+.bs-single-price {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.bs-single-short {
+    margin-bottom: 20px;
+}
+
+.bs-single-short p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.bs-single-cart .single_add_to_cart_button {
+    display: inline-block;
+    background: #dfe31d;
+    color: #000000;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bs-single-cart .single_add_to_cart_button:hover {
+    background: #ffff4d;
+    color: #000000;
+}
+
+.bs-single-description {
+    margin-top: 40px;
+}
+
+/* Tabs styling inside single product description */
+.bs-single-description .woocommerce-tabs {
+    background: #18181c;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.bs-single-description .woocommerce-tabs ul.tabs {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+    border-bottom: none;
+}
+
+.bs-single-description .woocommerce-tabs ul.tabs li {
+    margin: 0;
+    border: none;
+}
+
+.bs-single-description .woocommerce-tabs ul.tabs li a {
+    display: block;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: #2a2a2e;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.bs-single-description .woocommerce-tabs ul.tabs li.active a,
+.bs-single-description .woocommerce-tabs ul.tabs li a:hover {
+    background: #dfe31d;
+    color: #000000;
+}
+
+.bs-single-description .woocommerce-tabs .panel {
+    padding-top: 10px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Responsive single product */
+@media (max-width: 992px) {
+    .bs-single-container {
+        flex-direction: column;
+    }
+    .bs-single-image,
+    .bs-single-summary {
+        flex: 1 1 100%;
+    }
+    .bs-single-title {
+        font-size: 32px;
+    }
+}
