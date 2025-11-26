@@ -78,7 +78,7 @@ add_action( 'wp_enqueue_scripts', 'bidnsteal_scripts' );
  * Add inline CSS variables for customisable header settings.
  */
 function bidnsteal_inline_styles() {
-    $radius   = absint( get_theme_mod( 'bs_nav_radius', 34 ) );
+    $radius   = absint( get_theme_mod( 'bs_nav_radius', 42 ) );
     $nav_glow = sprintf( 'rgba(255,255,255,0.08)' );
 
     $css = sprintf(
@@ -203,7 +203,7 @@ function bidnsteal_customize_register( $wp_customize ) {
     $wp_customize->add_setting(
         'bs_nav_radius',
         [
-            'default'           => 34,
+            'default'           => 42,
             'sanitize_callback' => 'absint',
         ]
     );
@@ -317,6 +317,19 @@ add_action( 'wp_ajax_bs_search_products', 'bidnsteal_ajax_search_products' );
 add_action( 'wp_ajax_nopriv_bs_search_products', 'bidnsteal_ajax_search_products' );
 
 /**
+ * Core WooCommerce pages that must exist for the theme to function.
+ *
+ * @return array
+ */
+function bidnsteal_wc_core_pages() {
+    return [
+        'cart'       => [ 'option' => 'woocommerce_cart_page_id', 'title' => __( 'Cart', 'woocommerce' ), 'shortcode' => '[woocommerce_cart]' ],
+        'checkout'   => [ 'option' => 'woocommerce_checkout_page_id', 'title' => __( 'Checkout', 'woocommerce' ), 'shortcode' => '[woocommerce_checkout]' ],
+        'my-account' => [ 'option' => 'woocommerce_myaccount_page_id', 'title' => __( 'My Account', 'woocommerce' ), 'shortcode' => '[woocommerce_my_account]' ],
+    ];
+}
+
+/**
  * Ensure core WooCommerce pages exist when the theme is activated.
  */
 function bidnsteal_ensure_wc_pages() {
@@ -324,18 +337,40 @@ function bidnsteal_ensure_wc_pages() {
         return;
     }
 
-    $pages = [
-        'cart'     => [ 'option' => 'woocommerce_cart_page_id', 'title' => __( 'Cart', 'woocommerce' ), 'shortcode' => '[woocommerce_cart]' ],
-        'checkout' => [ 'option' => 'woocommerce_checkout_page_id', 'title' => __( 'Checkout', 'woocommerce' ), 'shortcode' => '[woocommerce_checkout]' ],
-        'my-account' => [ 'option' => 'woocommerce_myaccount_page_id', 'title' => __( 'My Account', 'woocommerce' ), 'shortcode' => '[woocommerce_my_account]' ],
-    ];
-
-    foreach ( $pages as $slug => $page ) {
+    foreach ( bidnsteal_wc_core_pages() as $slug => $page ) {
         if ( -1 === wc_get_page_id( str_replace( '-', '', $slug ) ) ) {
             wc_create_page( sanitize_title( $slug ), $page['option'], $page['title'], $page['shortcode'] );
         }
     }
 }
 add_action( 'after_switch_theme', 'bidnsteal_ensure_wc_pages' );
+
+/**
+ * Backfill WooCommerce pages on existing installs where they may be missing.
+ */
+function bidnsteal_maybe_ensure_wc_pages() {
+    if ( ! class_exists( 'WooCommerce' ) || ! function_exists( 'wc_create_page' ) ) {
+        return;
+    }
+
+    if ( get_transient( 'bs_wc_pages_checked' ) ) {
+        return;
+    }
+
+    foreach ( bidnsteal_wc_core_pages() as $slug => $page ) {
+        $page_id = wc_get_page_id( str_replace( '-', '', $slug ) );
+        if ( -1 === $page_id || 0 === $page_id ) {
+            $existing = get_page_by_path( $slug );
+            if ( $existing ) {
+                update_option( $page['option'], $existing->ID );
+            } else {
+                wc_create_page( sanitize_title( $slug ), $page['option'], $page['title'], $page['shortcode'] );
+            }
+        }
+    }
+
+    set_transient( 'bs_wc_pages_checked', 1, DAY_IN_SECONDS );
+}
+add_action( 'init', 'bidnsteal_maybe_ensure_wc_pages' );
 
 ?>

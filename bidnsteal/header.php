@@ -94,6 +94,8 @@ $account_link = get_theme_mod( 'bs_icon_account_link', get_permalink( get_option
         ?>
     </div>
 
+    <div class="bs-mobile-overlay" id="bs-mobile-overlay"></div>
+
     <!-- AJAX product search overlay -->
     <div class="bs-search-overlay" id="bs-search-overlay" aria-hidden="true">
         <div class="bs-search-panel">

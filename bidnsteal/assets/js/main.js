@@ -8,6 +8,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var toggleButton = document.getElementById('bs-toggle');
     var mobileMenu   = document.getElementById('bs-mobile-menu');
+    var mobileOverlay = document.getElementById('bs-mobile-overlay');
     var navBar       = document.querySelector('.bs-nav');
     var searchOverlay = document.getElementById('bs-search-overlay');
     var searchInput   = document.getElementById('bs-search-input');
@@ -16,17 +17,37 @@ document.addEventListener('DOMContentLoaded', function () {
     var searchClose    = document.querySelector('.bs-search-close');
     var searchDebounce;
 
+    var closeMobileMenu = function () {
+        if (!mobileMenu) return;
+        mobileMenu.classList.remove('active');
+        document.body.classList.remove('bs-no-scroll');
+        if (mobileOverlay) {
+            mobileOverlay.classList.remove('active');
+        }
+    };
+
     if (toggleButton && mobileMenu) {
         toggleButton.addEventListener('click', function () {
             // Toggle the 'active' class on the mobile menu to control visibility.
+            var willOpen = !mobileMenu.classList.contains('active');
             mobileMenu.classList.toggle('active');
+            if (willOpen) {
+                document.body.classList.add('bs-no-scroll');
+                if (mobileOverlay) {
+                    mobileOverlay.classList.add('active');
+                }
+            } else {
+                closeMobileMenu();
+            }
         });
 
         mobileMenu.querySelectorAll('a').forEach(function (link) {
-            link.addEventListener('click', function () {
-                mobileMenu.classList.remove('active');
-            });
+            link.addEventListener('click', closeMobileMenu);
         });
+    }
+
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', closeMobileMenu);
     }
 
     if (navBar) {
@@ -85,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keyup', function (event) {
         if (event.key === 'Escape') {
             closeSearch();
+            closeMobileMenu();
         }
     });
 
