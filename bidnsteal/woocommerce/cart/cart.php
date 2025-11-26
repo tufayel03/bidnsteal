@@ -16,7 +16,22 @@ do_action( 'woocommerce_before_cart' );
 ?>
 
 <div class="bs-cart-container">
-    <h1 class="bs-cart-title"><?php esc_html_e( 'Shopping Cart', 'bidnsteal' ); ?></h1>
+    <div class="bs-cart-header">
+        <div>
+            <p class="bs-cart-kicker"><?php esc_html_e( 'Review & adjust your picks', 'bidnsteal' ); ?></p>
+            <h1 class="bs-cart-title"><?php esc_html_e( 'Shopping Cart', 'bidnsteal' ); ?></h1>
+            <div class="bs-cart-badges">
+                <span class="bs-pill"><?php esc_html_e( 'Secure Checkout', 'bidnsteal' ); ?></span>
+                <span class="bs-pill"><?php esc_html_e( 'Free returns within 30 days', 'bidnsteal' ); ?></span>
+            </div>
+        </div>
+        <div class="bs-cart-meta">
+            <span class="bs-pill bs-pill-muted"><?php printf( esc_html__( '%d items', 'bidnsteal' ), WC()->cart ? WC()->cart->get_cart_contents_count() : 0 ); ?></span>
+            <a class="bs-text-link" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
+                <?php esc_html_e( 'Continue shopping', 'bidnsteal' ); ?>
+            </a>
+        </div>
+    </div>
 
     <form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
         <?php do_action( 'woocommerce_before_cart_table' ); ?>

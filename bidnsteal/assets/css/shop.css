@@ -450,6 +450,67 @@
 }
 
 /* ===================== Cart Page ===================== */
+.bs-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.bs-pill-muted {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.bs-cart-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.bs-cart-kicker {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 6px;
+}
+
+.bs-cart-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.bs-cart-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    text-align: right;
+}
+
+.bs-text-link {
+    color: #dfe31d;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bs-text-link:hover {
+    color: #f5f668;
+}
+
 .bs-cart-container {
     width: 95%;
     max-width: 1400px;
@@ -602,6 +663,36 @@
 }
 
 /* ===================== Checkout Page ===================== */
+.bs-checkout-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.bs-checkout-kicker {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 6px;
+}
+
+.bs-checkout-sub {
+    margin: 8px 0 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 14px;
+}
+
+.bs-checkout-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
 .bs-checkout-container {
     width: 95%;
     max-width: 1400px;

@@ -25,8 +25,16 @@ $cart_icon    = get_theme_mod( 'bs_icon_cart_class', 'fas fa-shopping-cart' );
 $account_icon = get_theme_mod( 'bs_icon_account_class', 'fas fa-user' );
 
 $search_link  = get_theme_mod( 'bs_icon_search_link', '' );
-$cart_link    = get_theme_mod( 'bs_icon_cart_link', function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#' );
-$account_link = get_theme_mod( 'bs_icon_account_link', get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) );
+$cart_link    = get_theme_mod( 'bs_icon_cart_link', bidnsteal_get_wc_page_url( 'cart' ) );
+$account_link = get_theme_mod( 'bs_icon_account_link', bidnsteal_get_wc_page_url( 'my-account' ) );
+
+if ( empty( $cart_link ) ) {
+    $cart_link = bidnsteal_get_wc_page_url( 'cart' );
+}
+
+if ( empty( $account_link ) ) {
+    $account_link = bidnsteal_get_wc_page_url( 'my-account' );
+}
 ?>
 
 <header class="bs-header">

@@ -227,12 +227,12 @@ function bidnsteal_customize_register( $wp_customize ) {
         'cart'    => [
             'label'      => __( 'Cart Icon', 'bidnsteal' ),
             'icon_class' => 'fas fa-shopping-cart',
-            'link'       => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '',
+            'link'       => bidnsteal_get_wc_page_url( 'cart' ),
         ],
         'account' => [
             'label'      => __( 'Account Icon', 'bidnsteal' ),
             'icon_class' => 'fas fa-user',
-            'link'       => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
+            'link'       => bidnsteal_get_wc_page_url( 'my-account' ),
         ],
     ];
 
@@ -317,6 +317,44 @@ add_action( 'wp_ajax_bs_search_products', 'bidnsteal_ajax_search_products' );
 add_action( 'wp_ajax_nopriv_bs_search_products', 'bidnsteal_ajax_search_products' );
 
 /**
+ * Helper to reliably return WooCommerce core page URLs and ensure the pages exist.
+ *
+ * @param string $slug Core slug e.g. cart, checkout, my-account.
+ *
+ * @return string URL string.
+ */
+function bidnsteal_get_wc_page_url( $slug ) {
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        return home_url( '/' . sanitize_title( $slug ) . '/' );
+    }
+
+    $pages = bidnsteal_wc_core_pages();
+
+    if ( isset( $pages[ $slug ] ) ) {
+        bidnsteal_maybe_create_wc_page( $slug, $pages[ $slug ] );
+        $page_id = wc_get_page_id( str_replace( '-', '', $slug ) );
+
+        if ( $page_id && -1 !== $page_id ) {
+            return get_permalink( $page_id );
+        }
+    }
+
+    $existing = get_page_by_path( $slug );
+    if ( $existing ) {
+        return get_permalink( $existing );
+    }
+
+    if ( function_exists( 'wc_get_page_permalink' ) ) {
+        $permalink = wc_get_page_permalink( str_replace( '-', '', $slug ) );
+        if ( $permalink ) {
+            return $permalink;
+        }
+    }
+
+    return home_url( '/' . sanitize_title( $slug ) . '/' );
+}
+
+/**
  * Core WooCommerce pages that must exist for the theme to function.
  *
  * @return array
@@ -330,6 +368,32 @@ function bidnsteal_wc_core_pages() {
 }
 
 /**
+ * Create or assign a WooCommerce core page when missing.
+ *
+ * @param string $slug  Page slug.
+ * @param array  $page  Page data from bidnsteal_wc_core_pages().
+ */
+function bidnsteal_maybe_create_wc_page( $slug, $page ) {
+    if ( ! function_exists( 'wc_create_page' ) ) {
+        return;
+    }
+
+    $page_id = wc_get_page_id( str_replace( '-', '', $slug ) );
+
+    if ( $page_id && -1 !== $page_id ) {
+        return;
+    }
+
+    $existing = get_page_by_path( $slug );
+    if ( $existing ) {
+        update_option( $page['option'], $existing->ID );
+        return;
+    }
+
+    wc_create_page( sanitize_title( $slug ), $page['option'], $page['title'], $page['shortcode'] );
+}
+
+/**
  * Ensure core WooCommerce pages exist when the theme is activated.
  */
 function bidnsteal_ensure_wc_pages() {
@@ -338,9 +402,7 @@ function bidnsteal_ensure_wc_pages() {
     }
 
     foreach ( bidnsteal_wc_core_pages() as $slug => $page ) {
-        if ( -1 === wc_get_page_id( str_replace( '-', '', $slug ) ) ) {
-            wc_create_page( sanitize_title( $slug ), $page['option'], $page['title'], $page['shortcode'] );
-        }
+        bidnsteal_maybe_create_wc_page( $slug, $page );
     }
 }
 add_action( 'after_switch_theme', 'bidnsteal_ensure_wc_pages' );
@@ -358,15 +420,7 @@ function bidnsteal_maybe_ensure_wc_pages() {
     }
 
     foreach ( bidnsteal_wc_core_pages() as $slug => $page ) {
-        $page_id = wc_get_page_id( str_replace( '-', '', $slug ) );
-        if ( -1 === $page_id || 0 === $page_id ) {
-            $existing = get_page_by_path( $slug );
-            if ( $existing ) {
-                update_option( $page['option'], $existing->ID );
-            } else {
-                wc_create_page( sanitize_title( $slug ), $page['option'], $page['title'], $page['shortcode'] );
-            }
-        }
+        bidnsteal_maybe_create_wc_page( $slug, $page );
     }
 
     set_transient( 'bs_wc_pages_checked', 1, DAY_IN_SECONDS );

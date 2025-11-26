@@ -25,7 +25,19 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 ?>
 
 <div class="bs-checkout-container">
-    <h1 class="bs-checkout-title"><?php esc_html_e( 'Checkout', 'bidnsteal' ); ?></h1>
+    <div class="bs-checkout-header">
+        <div>
+            <p class="bs-checkout-kicker"><?php esc_html_e( 'Almost there', 'bidnsteal' ); ?></p>
+            <h1 class="bs-checkout-title"><?php esc_html_e( 'Checkout', 'bidnsteal' ); ?></h1>
+            <p class="bs-checkout-sub">
+                <?php esc_html_e( 'Secure payment, encrypted details, transparent totals.', 'bidnsteal' ); ?>
+            </p>
+        </div>
+        <div class="bs-checkout-pills">
+            <span class="bs-pill"><?php esc_html_e( 'SSL Protected', 'bidnsteal' ); ?></span>
+            <span class="bs-pill bs-pill-muted"><?php esc_html_e( 'Support 24/7', 'bidnsteal' ); ?></span>
+        </div>
+    </div>
 
     <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
         <div class="bs-checkout-cols">
