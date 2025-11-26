@@ -27,6 +27,10 @@
     color: #ffffff;
 }
 
+.bs-filter-block + .bs-filter-block {
+    margin-top: 24px;
+}
+
 .bs-shop-sidebar .sidebar-title {
     font-size: 20px;
     margin-bottom: 15px;
@@ -59,6 +63,71 @@
     color: #ffffff;
 }
 
+.bs-category-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bs-category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 280px;
+    overflow: auto;
+    padding-right: 6px;
+}
+
+.bs-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.bs-checkbox:hover {
+    border-color: rgba(223, 227, 29, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.bs-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #dfe31d;
+}
+
+.bs-checkbox span {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.bs-apply-filters {
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #dfe31d, #f6ff64);
+    color: #000000;
+    font-weight: 700;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bs-apply-filters:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(223, 227, 29, 0.25);
+}
+
+.bs-empty-filter {
+    color: #888888;
+    font-size: 14px;
+    margin: 0;
+}
+
 /* WooCommerce layered nav widgets inside sidebar */
 .bs-shop-sidebar .woocommerce-widget-layered-nav-list li {
     margin-bottom: 8px;
@@ -84,6 +153,35 @@
 /* Price filter styling */
 .bs-shop-sidebar .price_slider_wrapper {
     margin-bottom: 25px;
+}
+
+.bs-shop-sidebar .price_slider_wrapper .ui-slider {
+    position: relative;
+    text-align: left;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    margin-top: 12px;
+}
+
+.bs-shop-sidebar .price_slider_wrapper .ui-slider-range {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #dfe31d, #f6ff64);
+    border-radius: 10px;
+}
+
+.bs-shop-sidebar .price_slider_wrapper .ui-slider-handle {
+    position: absolute;
+    top: -6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #000;
+    border: 2px solid #dfe31d;
+    box-shadow: 0 0 0 4px rgba(223, 227, 29, 0.2);
+    cursor: pointer;
 }
 
 .bs-shop-sidebar .price_slider_amount {
@@ -201,13 +299,16 @@
     position: relative;
     overflow: hidden;
     border-radius: 14px;
+    height: 230px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.3));
 }
 
 .bs-product-grid .bs-product .bs-card-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     border-radius: 14px;
+    object-fit: cover;
 }
 
 /* Sale badge */
@@ -239,6 +340,10 @@
     text-decoration: none;
     font-size: 16px;
     transition: background 0.2s, color 0.2s;
+}
+
+.bs-product-grid .added_to_cart {
+    display: none !important;
 }
 
 .bs-product-grid .bs-product .bs-cart-btn:hover {
@@ -349,11 +454,13 @@
     width: 95%;
     max-width: 1400px;
     margin: 60px auto;
-    background: #18181c;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 18px;
     padding: 20px;
     box-sizing: border-box;
     color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px);
 }
 
 .bs-cart-title {
@@ -493,11 +600,13 @@
     width: 95%;
     max-width: 1400px;
     margin: 60px auto;
-    background: #18181c;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 18px;
     padding: 20px;
     box-sizing: border-box;
     color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px);
 }
 
 .bs-checkout-title {
@@ -789,6 +898,111 @@
     color: rgba(255, 255, 255, 0.85);
     font-size: 15px;
     line-height: 1.6;
+}
+
+/* My Account page */
+.bs-account-page {
+    width: 95%;
+    max-width: 1200px;
+    margin: 60px auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+}
+
+.bs-account-sidebar {
+    background: #18181c;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bs-account-sidebar nav.woocommerce-MyAccount-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bs-account-sidebar nav.woocommerce-MyAccount-navigation li a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.bs-account-sidebar nav.woocommerce-MyAccount-navigation li.is-active a,
+.bs-account-sidebar nav.woocommerce-MyAccount-navigation li a:hover {
+    background: #dfe31d;
+    color: #000000;
+    border-color: rgba(223, 227, 29, 0.6);
+}
+
+.bs-account-content {
+    background: #18181c;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.bs-account-content h2,
+.bs-account-content h3 {
+    margin-top: 0;
+}
+
+.bs-account-content a {
+    color: #dfe31d;
+}
+
+.bs-account-content form {
+    display: grid;
+    gap: 14px;
+}
+
+.bs-account-content input[type="text"],
+.bs-account-content input[type="email"],
+.bs-account-content input[type="password"],
+.bs-account-content input[type="tel"],
+.bs-account-content textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+}
+
+.bs-account-content button,
+.bs-account-content input[type="submit"] {
+    background: linear-gradient(135deg, #dfe31d, #f6ff64);
+    color: #000000;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bs-account-content button:hover,
+.bs-account-content input[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(223, 227, 29, 0.28);
+}
+
+.bs-account-content .woocommerce-message,
+.bs-account-content .woocommerce-info,
+.bs-account-content .woocommerce-error {
+    background: rgba(223, 227, 29, 0.1);
+    border: 1px solid rgba(223, 227, 29, 0.4);
+    color: #dfe31d;
 }
 
 /* Responsive single product */

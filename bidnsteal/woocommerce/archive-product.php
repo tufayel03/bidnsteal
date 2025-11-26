@@ -30,22 +30,67 @@ do_action( 'woocommerce_before_main_content' );
     <aside class="bs-shop-sidebar">
         <h3 class="sidebar-title"><?php esc_html_e( 'Filters', 'bidnsteal' ); ?></h3>
 
-        <!-- Active filters displayed as chips -->
-        <div class="bs-active-filters">
-            <?php echo do_shortcode( '[woocommerce_product_filter_active]' ); ?>
+        <!-- Price filter -->
+        <div class="bs-filter-block">
+            <h4 class="filter-heading"><?php esc_html_e( 'Price', 'bidnsteal' ); ?></h4>
+            <div class="bs-price-slider">
+                <?php the_widget( 'WC_Widget_Price_Filter', [], [
+                    'before_widget' => '',
+                    'after_widget'  => '',
+                    'before_title'  => '',
+                    'after_title'   => '',
+                ] ); ?>
+            </div>
         </div>
 
-        <!-- Price filter -->
-        <h4 class="filter-heading"><?php esc_html_e( 'Price', 'bidnsteal' ); ?></h4>
-        <?php echo do_shortcode( '[woocommerce_product_filter_price]' ); ?>
-
-        <!-- Attribute filters (example for brand).  Adjust the attribute slug to match your site. -->
-        <h4 class="filter-heading"><?php esc_html_e( 'Brand', 'bidnsteal' ); ?></h4>
-        <?php echo do_shortcode( '[woocommerce_product_filter_attribute attribute="brand"]' ); ?>
-
         <!-- Category filter -->
-        <h4 class="filter-heading"><?php esc_html_e( 'Category', 'bidnsteal' ); ?></h4>
-        <?php echo do_shortcode( '[woocommerce_product_filter_category]' ); ?>
+        <div class="bs-filter-block">
+            <h4 class="filter-heading"><?php esc_html_e( 'Category', 'bidnsteal' ); ?></h4>
+            <?php
+            $selected_cats = isset( $_GET['bs_categories'] ) && is_array( $_GET['bs_categories'] ) ? array_map( 'sanitize_title', (array) wp_unslash( $_GET['bs_categories'] ) ) : [];
+            $product_cats  = get_terms(
+                [
+                    'taxonomy'   => 'product_cat',
+                    'hide_empty' => true,
+                    'orderby'    => 'name',
+                ]
+            );
+            ?>
+
+            <?php if ( $product_cats && ! is_wp_error( $product_cats ) ) : ?>
+                <form class="bs-category-filter" method="get">
+                    <div class="bs-category-list">
+                        <?php foreach ( $product_cats as $cat ) : ?>
+                            <label class="bs-checkbox">
+                                <input type="checkbox" name="bs_categories[]" value="<?php echo esc_attr( $cat->slug ); ?>" <?php checked( in_array( $cat->slug, $selected_cats, true ) ); ?> />
+                                <span><?php echo esc_html( $cat->name ); ?></span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <?php
+                    // Preserve other query string arguments like sorting and pagination.
+                    foreach ( $_GET as $key => $value ) {
+                        if ( 'bs_categories' === $key ) {
+                            continue;
+                        }
+
+                        if ( is_array( $value ) ) {
+                            foreach ( $value as $val ) {
+                                printf( '<input type="hidden" name="%s[]" value="%s" />', esc_attr( $key ), esc_attr( wp_unslash( $val ) ) );
+                            }
+                        } else {
+                            printf( '<input type="hidden" name="%s" value="%s" />', esc_attr( $key ), esc_attr( wp_unslash( $value ) ) );
+                        }
+                    }
+                    ?>
+
+                    <button type="submit" class="bs-apply-filters"><?php esc_html_e( 'Apply Filters', 'bidnsteal' ); ?></button>
+                </form>
+            <?php else : ?>
+                <p class="bs-empty-filter"><?php esc_html_e( 'No categories available.', 'bidnsteal' ); ?></p>
+            <?php endif; ?>
+        </div>
     </aside>
 
     <!-- Main content area -->
@@ -65,10 +110,29 @@ do_action( 'woocommerce_before_main_content' );
 
         <!-- Category tabs (static examples; adapt to your product categories if needed) -->
         <div class="bs-category-tabs">
-            <a href="#" class="active"><?php esc_html_e( 'All items', 'bidnsteal' ); ?></a>
-            <a href="#">Smartphones</a>
-            <a href="#">Kitchen</a>
-            <a href="#">Game Console</a>
+            <?php
+            $shop_url   = wc_get_page_permalink( 'shop' );
+            $current    = get_queried_object();
+            $active_cat = ( $current instanceof WP_Term && 'product_cat' === $current->taxonomy ) ? $current->slug : '';
+
+            echo '<a class="' . ( $active_cat ? '' : 'active' ) . '" href="' . esc_url( $shop_url ) . '">' . esc_html__( 'All Categories', 'bidnsteal' ) . '</a>';
+
+            $category_tabs = get_terms(
+                [
+                    'taxonomy'   => 'product_cat',
+                    'hide_empty' => true,
+                    'parent'     => 0,
+                    'orderby'    => 'name',
+                ]
+            );
+
+            if ( $category_tabs && ! is_wp_error( $category_tabs ) ) {
+                foreach ( $category_tabs as $cat ) {
+                    $active = $active_cat === $cat->slug ? 'active' : '';
+                    echo '<a class="' . esc_attr( $active ) . '" href="' . esc_url( get_term_link( $cat ) ) . '">' . esc_html( $cat->name ) . '</a>';
+                }
+            }
+            ?>
         </div>
 
         <?php if ( woocommerce_product_loop() ) : ?>
